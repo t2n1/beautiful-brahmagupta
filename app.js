@@ -179,38 +179,78 @@ document.addEventListener('DOMContentLoaded', () => {
       const callDate = new Date(now);
       callDate.setDate(now.getDate() - dayOffset);
       
-      // Random number of calls on this day: 12-18 calls today, 8-12 calls on other days
-      const count = dayOffset === 0 ? 14 + Math.floor(Math.random() * 5) : 8 + Math.floor(Math.random() * 5);
-      
-      for (let i = 0; i < count; i++) {
-        const contact = pool[Math.floor(Math.random() * pool.length)];
+      if (dayOffset === 1) {
+        // Yesterday: Continuous outgoing calls from 9:00 to 16:00, ~5 mins each
+        const currentCallTime = new Date(callDate);
+        currentCallTime.setHours(9, 0, 0, 0);
         
-        const timestamp = new Date(callDate);
-        if (dayOffset === 0) {
-          // Spread calls throughout the day up to the current hour
-          const currentHour = now.getHours();
-          const hour = Math.floor(Math.random() * (currentHour + 1));
-          const minute = Math.floor(Math.random() * 60);
-          timestamp.setHours(hour, minute, 0, 0);
-        } else {
-          // Random hour & minute during standard active hours
-          timestamp.setHours(9 + Math.floor(Math.random() * 10), Math.floor(Math.random() * 60), 0, 0);
+        const endLimit = new Date(callDate);
+        endLimit.setHours(16, 0, 0, 0);
+        
+        while (currentCallTime < endLimit) {
+          const contact = pool[Math.floor(Math.random() * pool.length)];
+          const isAnswered = Math.random() > 0.15; // 85% answered
+          
+          let durationSeconds = 0;
+          let status = 'missed';
+          if (isAnswered) {
+            durationSeconds = 270 + Math.floor(Math.random() * 60); // ~4.5 to 5.5 minutes (approx 5 mins)
+            status = 'answered';
+          }
+          
+          const callStart = new Date(currentCallTime);
+          
+          logs.push({
+            id: Math.random().toString(36).substring(2, 9),
+            name: contact.name,
+            number: contact.number,
+            location: contact.location,
+            callType: contact.callType,
+            direction: 'outgoing', // Dialing clients
+            status: status,
+            startTime: callStart,
+            duration: durationSeconds
+          });
+          
+          // Advance time: duration (or 30s ring if missed) + small gap (30s to 90s)
+          const gap = 30 + Math.floor(Math.random() * 60);
+          const elapsed = (isAnswered ? durationSeconds : 30) + gap;
+          currentCallTime.setSeconds(currentCallTime.getSeconds() + elapsed);
         }
-
-        const isMissed = Math.random() > 0.7; // 30% missed calls
-        const direction = Math.random() > 0.4 ? 'incoming' : 'outgoing';
+      } else {
+        // Other days
+        const count = dayOffset === 0 ? 14 + Math.floor(Math.random() * 5) : 8 + Math.floor(Math.random() * 5);
         
-        logs.push({
-          id: Math.random().toString(36).substring(2, 9),
-          name: contact.name,
-          number: contact.number,
-          location: contact.location,
-          callType: contact.callType,
-          direction: direction,
-          status: isMissed ? 'missed' : 'answered',
-          startTime: timestamp,
-          duration: isMissed ? 0 : 30 + Math.floor(Math.random() * 300)
-        });
+        for (let i = 0; i < count; i++) {
+          const contact = pool[Math.floor(Math.random() * pool.length)];
+          
+          const timestamp = new Date(callDate);
+          if (dayOffset === 0) {
+            // Spread calls throughout the day up to the current hour
+            const currentHour = now.getHours();
+            const hour = Math.floor(Math.random() * (currentHour + 1));
+            const minute = Math.floor(Math.random() * 60);
+            timestamp.setHours(hour, minute, 0, 0);
+          } else {
+            // Random hour & minute during standard active hours
+            timestamp.setHours(9 + Math.floor(Math.random() * 10), Math.floor(Math.random() * 60), 0, 0);
+          }
+
+          const isMissed = Math.random() > 0.7; // 30% missed calls
+          const direction = Math.random() > 0.4 ? 'incoming' : 'outgoing';
+          
+          logs.push({
+            id: Math.random().toString(36).substring(2, 9),
+            name: contact.name,
+            number: contact.number,
+            location: contact.location,
+            callType: contact.callType,
+            direction: direction,
+            status: isMissed ? 'missed' : 'answered',
+            startTime: timestamp,
+            duration: isMissed ? 0 : 30 + Math.floor(Math.random() * 300)
+          });
+        }
       }
     }
 
