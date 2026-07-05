@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Phone</title>
+  <link rel="stylesheet" href="style.css">
+  <!-- iOS Web App Standalone Meta Tags -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Phone">
+  <!-- Import Inter font for a clean, premium look mimicking SF Pro -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Phone Content Area (Fills iPhone display completely) -->
+  <div class="iphone-screen">
+
+      <!-- MAIN APP VIEWPORTS -->
+      <div class="app-viewport">
+        
+        <!-- ======================================= -->
+        <!-- SCREEN 1: CALLS HISTORY TAB (DEFAULT) -->
+        <!-- ======================================= -->
+        <div class="screen active" id="screen-calls">
+          <!-- Header -->
+          <header class="view-header">
+            <button class="header-btn left-btn" id="btn-calls-edit">Edit</button>
+            <h1 class="header-title">Calls</h1>
+            <button class="header-btn right-btn" id="btn-calls-filter">
+              <!-- iOS 18 List Filter Icon SVG -->
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="4" y1="6" x2="20" y2="6"></line>
+                <line x1="4" y1="12" x2="14" y2="12"></line>
+                <line x1="4" y1="18" x2="18" y2="18"></line>
+                <circle cx="17" cy="12" r="2" fill="currentColor"></circle>
+              </svg>
+            </button>
+          </header>
+          
+          <!-- Scrollable Log Container -->
+          <div class="scroll-content">
+            <!-- Share Name & Photo Banner -->
+            <div class="share-name-card">
+              <div class="avatar-sm">
+                <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&auto=format&fit=crop&q=60" alt="Profile" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <div class="avatar-placeholder" style="display:none;">TN</div>
+              </div>
+              <div class="share-name-info">
+                <span class="share-title">Tri Nguyen Tran</span>
+                <span class="share-subtitle">Share Your Name & Photo</span>
+              </div>
+              <svg class="chevron-right" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5">
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
+            </div>
+            
+            <!-- Quick Filter Bar (All / Missed) -->
+            <div class="sub-filter-bar">
+              <button class="sub-filter-tab active" id="filter-all">All</button>
+              <button class="sub-filter-tab" id="filter-missed">Missed</button>
+            </div>
+
+            <!-- Empty Call Log state -->
+            <div class="empty-state" id="calls-empty" style="display: none;">
+              No Recent Calls
+            </div>
+
+            <!-- Call Log List -->
+            <div class="call-log-list" id="call-log-list-container">
+              <!-- Dynamically Populated by app.js -->
+            </div>
+          </div>
+        </div>
+
+        <!-- ======================================= -->
+        <!-- SCREEN 2: CALL DETAILS VIEW (SLIDE-IN) -->
+        <!-- ======================================= -->
+        <div class="screen" id="screen-detail">
+          <!-- Detail Header -->
+          <header class="detail-header-nav">
+            <button class="back-btn" id="btn-detail-back">
+              <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="15 18 9 12 15 6"></polyline>
+              </svg>
+              <span>Calls</span>
+            </button>
+            <button class="header-btn" id="btn-detail-edit">Edit</button>
+          </header>
+
+          <div class="scroll-content detail-content">
+            <!-- Profile Info Header -->
+            <div class="detail-profile-section">
+              <div class="detail-avatar" id="detail-avatar-container">
+                <!-- Initials or icon -->
+                <span id="detail-avatar-text">JP</span>
+              </div>
+              <div class="detail-country" id="detail-location-label">JAPAN</div>
+              <div class="detail-number" id="detail-phone-label">050 1724 6188</div>
+            </div>
+
+            <!-- Circle Quick Action Buttons -->
+            <div class="detail-quick-actions">
+              <button class="action-circle-btn">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+                  <path d="M20,2H4C2.9,2,2,2.9,2,4v18l4-4h14c1.1,0,2-0.9,2-2V4C22,2.9,21.1,2,20,2z"/>
+                </svg>
+                <span>message</span>
+              </button>
+              <button class="action-circle-btn">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+                  <path d="M20.01,15.38c-1.23,0-2.42-0.2-3.53-0.57c-0.35-0.11-0.74-0.03-1.02,0.24l-2.2,2.2c-2.83-1.44-5.15-3.75-6.59-6.59l2.2-2.21c0.28-0.26,0.36-0.65,0.25-1C8.75,6.41,8.55,5.22,8.55,4c0-0.55-0.45-1-1-1H4c-0.55,0-1,0.45-1,1c0,9.39,7.61,17,17,17c0.55,0,1-0.45,1-1v-3.5C21.01,15.83,20.56,15.38,20.01,15.38z"/>
+                </svg>
+                <span>call</span>
+              </button>
+              <button class="action-circle-btn">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+                  <path d="M17,10.5V7c0-0.55-0.45-1-1-1H4C3.45,6,3,6.45,3,7v10c0,0.55,0.45,1,1,1h12c0.55,0,1-0.45,1-1v-3.5l5,5v-13L17,10.5z"/>
+                </svg>
+                <span>video</span>
+              </button>
+              <button class="action-circle-btn">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+                  <path d="M20,4H4C2.9,4,2.01,4.9,2.01,6L2,18c0,1.1,0.9,2,2,2h16c1.1,0,2-0.9,2-2V6C22,4.9,21.1,4,20,4z M20,8l-8,5L4,8V6l8,5l8-5V8z"/>
+                </svg>
+                <span>mail</span>
+              </button>
+            </div>
+
+            <!-- Call History Card -->
+            <div class="detail-info-card">
+              <div class="card-header">
+                <h3>Call History</h3>
+                <svg class="chevron-right" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" style="opacity: 0.3;">
+                  <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+              </div>
+              <div class="detail-call-history-list" id="detail-call-history-container">
+                <!-- Dynamically Populated by app.js (e.g. Missed Call 2026/07/04 14:15) -->
+              </div>
+            </div>
+
+            <!-- Detailed Actions Menu -->
+            <div class="detail-menu-card">
+              <div class="detail-menu-item">
+                <div class="menu-item-text">
+                  <span class="label">phone <span class="badge">RECENT</span></span>
+                  <span class="value" id="detail-phone-value">050 1724 6188</span>
+                </div>
+                <button class="menu-icon-btn">
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+                    <path d="M20.01,15.38c-1.23,0-2.42-0.2-3.53-0.57c-0.35-0.11-0.74-0.03-1.02,0.24l-2.2,2.2c-2.83-1.44-5.15-3.75-6.59-6.59l2.2-2.21c0.28-0.26,0.36-0.65,0.25-1C8.75,6.41,8.55,5.22,8.55,4c0-0.55-0.45-1-1-1H4c-0.55,0-1,0.45-1,1c0,9.39,7.61,17,17,17c0.55,0,1-0.45,1-1v-3.5C21.01,15.83,20.56,15.38,20.01,15.38z"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <!-- Create / Edit Contact Options -->
+            <div class="detail-menu-card">
+              <div class="detail-menu-item interactable">
+                <span>Share Contact</span>
+              </div>
+              <div class="detail-menu-item interactable">
+                <span>Create New Contact</span>
+              </div>
+              <div class="detail-menu-item interactable">
+                <span>Add to Existing Contact</span>
+              </div>
+            </div>
+
+            <!-- Secondary Actions -->
+            <div class="detail-menu-card">
+              <div class="detail-menu-item interactable">
+                <span>Add to Emergency Contacts</span>
+              </div>
+            </div>
+
+            <div class="detail-menu-card">
+              <div class="detail-menu-item interactable danger">
+                <span>Block Contact</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ======================================= -->
+        <!-- SCREEN 3: CONTACTS LIST TAB -->
+        <!-- ======================================= -->
+        <div class="screen" id="screen-contacts">
+          <header class="view-header">
+            <button class="header-btn left-btn">+</button>
+            <h1 class="header-title">Contacts</h1>
+            <button class="header-btn right-btn">Groups</button>
+          </header>
+          
+          <div class="scroll-content">
+            <!-- Search bar inside Contacts -->
+            <div class="search-bar-inline">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" class="search-icon-svg">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+              <input type="text" placeholder="Search" disabled>
+            </div>
+            
+            <div class="contacts-list">
+              <!-- A simple list of mock names for realism -->
+              <div class="contact-section-header">A</div>
+              <div class="contact-item">Abe Shinzo</div>
+              <div class="contact-item">Akihiro Sato</div>
+              
+              <div class="contact-section-header">K</div>
+              <div class="contact-item">Kenji Kobayashi</div>
+              <div class="contact-item">Kiyoshi Tanaka</div>
+              
+              <div class="contact-section-header">N</div>
+              <div class="contact-item">Nicole (Instagram)</div>
+              
+              <div class="contact-section-header">S</div>
+              <div class="contact-item">Sora Takahashi</div>
+              
+              <div class="contact-section-header">T</div>
+              <div class="contact-item">Tri Nguyen Tran</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ======================================= -->
+        <!-- SCREEN 4: KEYPAD DIALER TAB -->
+        <!-- ======================================= -->
+        <div class="screen" id="screen-keypad">
+          <div class="keypad-content">
+            <!-- Dialer Display -->
+            <div class="dialer-display">
+              <div class="dialed-number" id="dialed-number-output"></div>
+              <button class="add-number-btn" id="btn-add-dialed" style="display: none;">Add Number</button>
+            </div>
+            
+            <!-- Dial Grid -->
+            <div class="dialer-grid">
+              <button class="dial-key" data-key="1"><span class="num">1</span><span class="letters">&nbsp;</span></button>
+              <button class="dial-key" data-key="2"><span class="num">2</span><span class="letters">A B C</span></button>
+              <button class="dial-key" data-key="3"><span class="num">3</span><span class="letters">D E F</span></button>
+              
+              <button class="dial-key" data-key="4"><span class="num">4</span><span class="letters">G H I</span></button>
+              <button class="dial-key" data-key="5"><span class="num">5</span><span class="letters">J K L</span></button>
+              <button class="dial-key" data-key="6"><span class="num">6</span><span class="letters">M N O</span></button>
+              
+              <button class="dial-key" data-key="7"><span class="num">7</span><span class="letters">P Q R S</span></button>
+              <button class="dial-key" data-key="8"><span class="num">8</span><span class="letters">T U V</span></button>
+              <button class="dial-key" data-key="9"><span class="num">9</span><span class="letters">W X Y Z</span></button>
+              
+              <button class="dial-key asterisk" data-key="*"><span class="num">*</span><span class="letters">&nbsp;</span></button>
+              <button class="dial-key" data-key="0"><span class="num">0</span><span class="letters">+</span></button>
+              <button class="dial-key hash" data-key="#"><span class="num">#</span><span class="letters">&nbsp;</span></button>
+            </div>
+            
+            <!-- Bottom dial action -->
+            <div class="dialer-actions">
+              <div class="action-spacer"></div>
+              <button class="call-trigger-btn" id="btn-keypad-call">
+                <svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor">
+                  <path d="M20.01,15.38c-1.23,0-2.42-0.2-3.53-0.57c-0.35-0.11-0.74-0.03-1.02,0.24l-2.2,2.2c-2.83-1.44-5.15-3.75-6.59-6.59l2.2-2.21c0.28-0.26,0.36-0.65,0.25-1C8.75,6.41,8.55,5.22,8.55,4c0-0.55-0.45-1-1-1H4c-0.55,0-1,0.45-1,1c0,9.39,7.61,17,17,17c0.55,0,1-0.45,1-1v-3.5C21.01,15.83,20.56,15.38,20.01,15.38z"/>
+                </svg>
+              </button>
+              <button class="backspace-btn" id="btn-keypad-backspace" style="visibility: hidden;">
+                <!-- iOS backspace icon -->
+                <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 4H8l-7 8 7 8h13a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2z"></path>
+                  <line x1="18" y1="9" x2="12" y2="15"></line>
+                  <line x1="12" y1="9" x2="18" y2="15"></line>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- SEARCH DRAWER / OVERLAY -->
+      <div class="search-drawer" id="search-drawer">
+        <div class="search-drawer-header">
+          <div class="search-input-wrapper">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" class="search-icon-svg">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <input type="text" id="search-input-field" placeholder="Search numbers or locations...">
+            <button class="clear-search-btn" id="btn-clear-search" style="display: none;">&times;</button>
+          </div>
+          <button class="cancel-search-btn" id="btn-cancel-search">Cancel</button>
+        </div>
+        <div class="search-results-content">
+          <div class="call-log-list" id="search-results-list">
+            <!-- Search Results populated dynamically -->
+          </div>
+          <div class="search-empty-state" id="search-empty" style="display: none;">
+            No Results Found
+          </div>
+        </div>
+      </div>
+
+      <!-- ======================================= -->
+      <!-- BOTTOM TAB NAVIGATION (FLOATING CAPSULE)-->
+      <!-- ======================================= -->
+      <div class="bottom-navigation-container">
+        <!-- Floating Capsule Bar -->
+        <nav class="bottom-tab-bar">
+          <!-- Selected indicator pill background -->
+          <div class="tab-indicator-pill" id="tab-pill"></div>
+          
+          <button class="tab-item active" data-tab="calls" id="tab-btn-calls">
+            <svg viewBox="0 0 24 24" width="20" height="20" class="tab-icon">
+              <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/>
+              <polyline points="12 6 12 12 16 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            <span class="tab-label">Calls</span>
+          </button>
+          
+          <button class="tab-item" data-tab="contacts" id="tab-btn-contacts">
+            <svg viewBox="0 0 24 24" width="20" height="20" class="tab-icon" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+            <span class="tab-label">Contacts</span>
+          </button>
+          
+          <button class="tab-item" data-tab="keypad" id="tab-btn-keypad">
+            <svg viewBox="0 0 24 24" width="20" height="20" class="tab-icon" fill="currentColor">
+              <circle cx="6" cy="6" r="2" />
+              <circle cx="12" cy="6" r="2" />
+              <circle cx="18" cy="6" r="2" />
+              <circle cx="6" cy="12" r="2" />
+              <circle cx="12" cy="12" r="2" />
+              <circle cx="18" cy="12" r="2" />
+              <circle cx="6" cy="18" r="2" />
+              <circle cx="12" cy="18" r="2" />
+              <circle cx="18" cy="18" r="2" />
+            </svg>
+            <span class="tab-label">Keypad</span>
+          </button>
+        </nav>
+        
+        <!-- Floating Search Action Button -->
+        <button class="floating-search-btn" id="btn-open-search" aria-label="Search">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+        </button>
+      </div>
+
+      <!-- ACTIVE CALL OVERLAY -->
+      <div class="active-call-overlay" id="screen-active-call">
+        <div class="active-call-header">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" style="opacity: 0.5; margin-right: 4px; vertical-align: middle;">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+          </svg>
+          <span style="opacity: 0.5; font-size: 11px; font-weight: 500; vertical-align: middle;">End-to-End Encrypted</span>
+        </div>
+        
+        <div class="active-call-contact">
+          <div class="active-call-avatar" id="active-call-avatar-text">050</div>
+          <div class="active-call-name" id="active-call-name-label">050 1724 6188</div>
+          <div class="active-call-status" id="active-call-status-label">calling...</div>
+        </div>
+
+        <div class="active-call-tools">
+          <button class="tool-btn">
+            <div class="tool-icon-circle">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+                <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.3-3c0 3-2.54 5.1-5.3 5.1S6.7 14 6.7 11H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c3.28-.48 6-3.3 6-6.72h-1.7z"/>
+              </svg>
+            </div>
+            <span>mute</span>
+          </button>
+          <button class="tool-btn">
+            <div class="tool-icon-circle">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+                <circle cx="6" cy="6" r="2"/>
+                <circle cx="12" cy="6" r="2"/>
+                <circle cx="18" cy="6" r="2"/>
+                <circle cx="6" cy="12" r="2"/>
+                <circle cx="12" cy="12" r="2"/>
+                <circle cx="18" cy="12" r="2"/>
+                <circle cx="6" cy="18" r="2"/>
+                <circle cx="12" cy="18" r="2"/>
+                <circle cx="18" cy="18" r="2"/>
+              </svg>
+            </div>
+            <span>keypad</span>
+          </button>
+          <button class="tool-btn">
+            <div class="tool-icon-circle">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+                <path d="M8 9H5v6h3l4 4V5L8 9zm11 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM16.5 3v2.02c2.58.81 4.5 3.2 4.5 6.05s-1.92 5.24-4.5 6.05V19.2c3.71-.85 6.5-4.18 6.5-8.15s-2.79-7.3-6.5-8.15z"/>
+              </svg>
+            </div>
+            <span>speaker</span>
+          </button>
+          <button class="tool-btn disabled">
+            <div class="tool-icon-circle">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+                <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+              </svg>
+            </div>
+            <span>add call</span>
+          </button>
+          <button class="tool-btn disabled">
+            <div class="tool-icon-circle">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+                <path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l5 5v-13l-5 5z"/>
+              </svg>
+            </div>
+            <span>FaceTime</span>
+          </button>
+          <button class="tool-btn">
+            <div class="tool-icon-circle">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+                <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+              </svg>
+            </div>
+            <span>contacts</span>
+          </button>
+        </div>
+
+        <div class="active-call-actions">
+          <button class="hangup-btn" id="btn-hangup">
+            <svg viewBox="0 0 24 24" width="30" height="30" fill="currentColor" style="transform: rotate(135deg);">
+              <path d="M20.01,15.38c-1.23,0-2.42-0.2-3.53-0.57c-0.35-0.11-0.74-0.03-1.02,0.24l-2.2,2.2c-2.83-1.44-5.15-3.75-6.59-6.59l2.2-2.21c0.28-0.26,0.36-0.65,0.25-1C8.75,6.41,8.55,5.22,8.55,4c0-0.55-0.45-1-1-1H4c-0.55,0-1,0.45-1,1c0,9.39,7.61,17,17,17c0.55,0,1-0.45,1-1v-3.5C21.01,15.83,20.56,15.38,20.01,15.38z"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

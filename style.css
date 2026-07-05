@@ -1,0 +1,1149 @@
+/* ==========================================================================
+   iOS 18 PHONE APP SIMULATOR STYLING
+   ========================================================================== */
+
+/* Design Tokens & Custom CSS Variables */
+:root {
+  --ios-black: #000000;
+  --ios-dark-gray: #1c1c1e;
+  --ios-mid-gray: #2c2c2e;
+  --ios-light-gray: #3a3a3c;
+  --ios-text-primary: #ffffff;
+  --ios-text-secondary: #8e8e93;
+  --ios-text-tertiary: #545456;
+  --ios-blue: #0a84ff;
+  --ios-blue-light: rgba(10, 132, 255, 0.15);
+  --ios-red: #ff453a;
+  --ios-red-light: rgba(255, 69, 58, 0.15);
+  --ios-green: #30d158;
+  
+  /* Glassmorphism options */
+  --glass-bg: rgba(28, 28, 30, 0.75);
+  --glass-blur: blur(25px) saturate(180%);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  
+  --font-stack: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* Reset & Page Background */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  font-family: var(--font-stack);
+  background: var(--ios-black);
+  color: var(--ios-text-primary);
+  min-height: 100vh;
+  display: flex;
+  overflow: hidden;
+}
+
+.iphone-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--ios-black);
+  overflow: hidden;
+  padding-top: env(safe-area-inset-top, 20px);
+  padding-bottom: env(safe-area-inset-bottom, 12px);
+}
+
+/* ==========================================================================
+   VIEWPORT SCREENS SYSTEM
+   ========================================================================== */
+.app-viewport {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+}
+
+.screen {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  transform: scale(0.98);
+  background-color: var(--ios-black);
+}
+
+.screen.active {
+  opacity: 1;
+  pointer-events: auto;
+  transform: scale(1);
+}
+
+/* Header style for main tabs */
+.view-header {
+  height: 52px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  background-color: var(--ios-black);
+  z-index: 20;
+}
+
+.header-title {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--ios-text-primary);
+}
+
+.header-btn {
+  background: none;
+  border: none;
+  color: var(--ios-blue);
+  font-family: var(--font-stack);
+  font-size: 17px;
+  font-weight: 400;
+  cursor: pointer;
+  padding: 4px 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.2s;
+}
+
+.header-btn:active {
+  opacity: 0.5;
+}
+
+.header-btn.right-btn {
+  padding-right: 0;
+}
+
+.header-btn.left-btn {
+  padding-left: 0;
+}
+
+/* Scrollable area within screens */
+.scroll-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0 16px 100px 16px; /* extra bottom padding for floating bar */
+  scrollbar-width: none; /* hide scrollbars Firefox */
+}
+
+.scroll-content::-webkit-scrollbar {
+  display: none; /* hide scrollbars Chrome/Safari */
+}
+
+/* ==========================================================================
+   CALL HISTORY TAB
+   ========================================================================== */
+
+/* Profile Share Name card */
+.share-name-card {
+  background-color: var(--ios-dark-gray);
+  border-radius: 12px;
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+  margin-bottom: 16px;
+  cursor: pointer;
+}
+
+.avatar-sm {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  overflow: hidden;
+  background-color: var(--ios-mid-gray);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 12px;
+}
+
+.avatar-sm img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.avatar-placeholder {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ios-text-primary);
+}
+
+.share-name-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.share-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ios-text-primary);
+}
+
+.share-subtitle {
+  font-size: 12px;
+  color: var(--ios-text-secondary);
+  margin-top: 2px;
+}
+
+.chevron-right {
+  color: var(--ios-text-tertiary);
+}
+
+/* Sub filter bar (All / Missed tabs) */
+.sub-filter-bar {
+  display: flex;
+  background-color: var(--ios-dark-gray);
+  padding: 2px;
+  border-radius: 8px;
+  margin-bottom: 14px;
+}
+
+.sub-filter-tab {
+  flex: 1;
+  border: none;
+  background: none;
+  color: var(--ios-text-secondary);
+  font-family: var(--font-stack);
+  font-size: 13px;
+  font-weight: 600;
+  padding: 6px 0;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.sub-filter-tab.active {
+  background-color: var(--ios-light-gray);
+  color: var(--ios-text-primary);
+}
+
+/* Call log items */
+.call-log-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.call-item {
+  display: flex;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.call-item:active {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.call-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #535266 0%, #3a394a 100%);
+  color: var(--ios-text-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 15px;
+  margin-right: 14px;
+  flex-shrink: 0;
+}
+
+.call-item.missed .call-avatar {
+  background: linear-gradient(135deg, #6e3333 0%, #4a2020 100%);
+}
+
+.call-info-wrap {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 0; /* allows text truncation */
+}
+
+.call-number-name {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--ios-text-primary);
+  margin-bottom: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.call-item.missed .call-number-name {
+  color: var(--ios-red);
+}
+
+.call-meta {
+  display: flex;
+  align-items: center;
+  font-size: 13px;
+  color: var(--ios-text-secondary);
+  gap: 4px;
+}
+
+.call-arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 12px;
+  height: 12px;
+  color: var(--ios-text-secondary);
+}
+
+.call-item.missed .call-arrow {
+  color: var(--ios-red);
+}
+
+.call-right-action {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-left: 12px;
+}
+
+.call-time-label {
+  font-size: 14px;
+  color: var(--ios-text-secondary);
+}
+
+.call-action-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background-color: var(--ios-dark-gray);
+  border: none;
+  color: var(--ios-blue);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.call-action-btn:active {
+  background-color: var(--ios-light-gray);
+}
+
+.empty-state {
+  text-align: center;
+  padding: 40px 0;
+  color: var(--ios-text-secondary);
+  font-size: 15px;
+}
+
+/* ==========================================================================
+   CALL DETAILS PAGE (SLIDES IN)
+   ========================================================================== */
+#screen-detail {
+  z-index: 30;
+  background-color: #0c0b12;
+  transform: translateX(100%); /* start off-screen right */
+}
+
+#screen-detail.active {
+  transform: translateX(0); /* slide in */
+}
+
+/* Detail Navigation Bar */
+.detail-header-nav {
+  height: 52px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 16px;
+  background-color: transparent;
+  z-index: 40;
+}
+
+.back-btn {
+  background: none;
+  border: none;
+  color: var(--ios-blue);
+  font-family: var(--font-stack);
+  font-size: 17px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  padding: 4px 4px 4px 0;
+  gap: 2px;
+}
+
+.back-btn span {
+  font-weight: 400;
+}
+
+.back-btn:active {
+  opacity: 0.5;
+}
+
+/* Profile header */
+.detail-content {
+  padding-top: 10px;
+}
+
+.detail-profile-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.detail-avatar {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #444357 0%, #262535 100%);
+  border: 1px solid rgba(255,255,255,0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 34px;
+  font-weight: 500;
+  color: var(--ios-text-primary);
+  margin-bottom: 14px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+}
+
+.detail-country {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--ios-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin-bottom: 4px;
+}
+
+.detail-number {
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--ios-text-primary);
+  text-align: center;
+  word-break: break-all;
+  padding: 0 20px;
+}
+
+/* Action Circle Buttons */
+.detail-quick-actions {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-bottom: 22px;
+}
+
+.action-circle-btn {
+  background-color: var(--ios-dark-gray);
+  border: none;
+  border-radius: 12px;
+  padding: 10px 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: var(--ios-text-primary);
+  font-family: var(--font-stack);
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.action-circle-btn svg {
+  color: var(--ios-text-primary);
+  margin-bottom: 6px;
+}
+
+.action-circle-btn span {
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--ios-text-secondary);
+}
+
+.action-circle-btn:active {
+  background-color: var(--ios-mid-gray);
+  transform: scale(0.96);
+}
+
+/* Card layout for detail options and call history */
+.detail-info-card, .detail-menu-card {
+  background-color: var(--ios-dark-gray);
+  border-radius: 12px;
+  margin-bottom: 14px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.02);
+}
+
+.detail-info-card {
+  padding: 14px;
+}
+
+.detail-info-card .card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.detail-info-card .card-header h3 {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ios-text-primary);
+}
+
+.detail-call-history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.history-log-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+}
+
+.history-log-label {
+  color: var(--ios-text-secondary);
+}
+
+.history-log-label.missed {
+  color: var(--ios-red);
+}
+
+.history-log-time {
+  color: var(--ios-text-primary);
+  font-weight: 500;
+}
+
+/* Action menus list */
+.detail-menu-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  font-size: 15px;
+}
+
+.detail-menu-item:last-child {
+  border-bottom: none;
+}
+
+.detail-menu-item.interactable {
+  cursor: pointer;
+  color: var(--ios-blue);
+}
+
+.detail-menu-item.interactable:active {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.detail-menu-item.danger {
+  color: var(--ios-red);
+}
+
+.menu-item-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.menu-item-text .label {
+  font-size: 11px;
+  color: var(--ios-text-secondary);
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.menu-item-text .badge {
+  background-color: var(--ios-mid-gray);
+  color: var(--ios-text-secondary);
+  font-size: 9px;
+  padding: 1px 4px;
+  border-radius: 4px;
+  font-weight: 700;
+}
+
+.menu-item-text .value {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--ios-text-primary);
+  margin-top: 4px;
+}
+
+.menu-icon-btn {
+  background: none;
+  border: none;
+  color: var(--ios-blue);
+  cursor: pointer;
+}
+
+/* ==========================================================================
+   CONTACTS TAB
+   ========================================================================== */
+.search-bar-inline {
+  background-color: var(--ios-dark-gray);
+  border-radius: 10px;
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+  margin-bottom: 16px;
+  opacity: 0.6;
+}
+
+.search-icon-svg {
+  color: var(--ios-text-secondary);
+}
+
+.search-bar-inline input {
+  background: none;
+  border: none;
+  color: var(--ios-text-primary);
+  font-family: var(--font-stack);
+  font-size: 15px;
+  outline: none;
+  width: 100%;
+}
+
+.contacts-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.contact-section-header {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ios-text-secondary);
+  padding: 10px 0 6px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.contact-item {
+  padding: 12px 0;
+  font-size: 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+  cursor: pointer;
+}
+
+.contact-item:active {
+  opacity: 0.5;
+}
+
+/* ==========================================================================
+   KEYPAD DIALER TAB
+   ========================================================================== */
+#screen-keypad {
+  justify-content: flex-end;
+}
+
+.keypad-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 110px;
+  width: 100%;
+}
+
+.dialer-display {
+  height: 90px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+  width: 100%;
+  padding: 0 20px;
+}
+
+.dialed-number {
+  font-size: 38px;
+  font-weight: 400;
+  color: var(--ios-text-primary);
+  letter-spacing: -0.5px;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+}
+
+.add-number-btn {
+  background: none;
+  border: none;
+  color: var(--ios-blue);
+  font-family: var(--font-stack);
+  font-size: 15px;
+  font-weight: 500;
+  margin-top: 6px;
+  cursor: pointer;
+}
+
+.dialer-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px 24px;
+  margin-bottom: 26px;
+}
+
+.dial-key {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background-color: var(--ios-dark-gray);
+  border: none;
+  color: var(--ios-text-primary);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.1s ease, transform 0.05s ease;
+}
+
+.dial-key:active {
+  background-color: var(--ios-light-gray);
+  transform: scale(0.95);
+}
+
+.dial-key .num {
+  font-size: 30px;
+  font-weight: 400;
+  line-height: 1;
+}
+
+.dial-key .letters {
+  font-size: 9px;
+  font-weight: 600;
+  color: var(--ios-text-secondary);
+  text-transform: uppercase;
+  margin-top: 2px;
+  letter-spacing: 0.5px;
+}
+
+.dial-key.asterisk .num {
+  font-size: 38px;
+  padding-top: 8px;
+}
+
+.dial-key.hash .num {
+  font-size: 26px;
+}
+
+.dialer-actions {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  align-items: center;
+  justify-items: center;
+  width: 264px; /* matching the grid width roughly */
+}
+
+.action-spacer {
+  width: 72px;
+}
+
+.call-trigger-btn {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background-color: var(--ios-green);
+  border: none;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(48, 209, 88, 0.3);
+  transition: transform 0.1s ease, background-color 0.2s ease;
+}
+
+.call-trigger-btn:active {
+  background-color: #24a844;
+  transform: scale(0.95);
+}
+
+.backspace-btn {
+  width: 72px;
+  height: 72px;
+  background: none;
+  border: none;
+  color: var(--ios-text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.backspace-btn:active {
+  color: var(--ios-text-primary);
+}
+
+/* ==========================================================================
+   SEARCH DRAWER / OVERLAY
+   ========================================================================== */
+.search-drawer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--ios-black);
+  z-index: 90;
+  display: flex;
+  flex-direction: column;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(15px);
+  transition: all 0.25s cubic-bezier(0.1, 0.76, 0.55, 0.94);
+}
+
+.search-drawer.active {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.search-drawer-header {
+  height: 52px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 16px;
+  margin-top: 48px; /* Offset status bar */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.search-input-wrapper {
+  flex: 1;
+  background-color: var(--ios-dark-gray);
+  border-radius: 10px;
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.search-input-wrapper input {
+  background: none;
+  border: none;
+  color: var(--ios-text-primary);
+  font-family: var(--font-stack);
+  font-size: 15px;
+  outline: none;
+  width: 100%;
+}
+
+.clear-search-btn {
+  background: var(--ios-light-gray);
+  border: none;
+  color: var(--ios-text-primary);
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.cancel-search-btn {
+  background: none;
+  border: none;
+  color: var(--ios-blue);
+  font-family: var(--font-stack);
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.search-results-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 12px 16px;
+}
+
+.search-empty-state {
+  text-align: center;
+  padding: 40px 0;
+  color: var(--ios-text-secondary);
+  font-size: 15px;
+}
+
+/* ==========================================================================
+   BOTTOM FLOATING NAVIGATION
+   ========================================================================== */
+.bottom-navigation-container {
+  position: absolute;
+  bottom: calc(env(safe-area-inset-bottom, 12px) + 12px);
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 16px;
+  gap: 12px;
+  pointer-events: none; /* Let clicks pass to items */
+  z-index: 80;
+}
+
+/* Capsule-shaped bottom tab bar */
+.bottom-tab-bar {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  height: 52px;
+  border-radius: 30px;
+  display: flex;
+  padding: 4px;
+  position: relative;
+  box-shadow: 
+    0 10px 30px rgba(0,0,0,0.5),
+    0 1px 2px rgba(255,255,255,0.05);
+  pointer-events: auto; /* Re-enable clicks */
+  flex: 1;
+  max-width: 280px;
+}
+
+/* Selected indicator pill background animation */
+.tab-indicator-pill {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  height: 44px;
+  width: 88px; /* Dynamic depending on number of tabs, approx 1/3 minus spacing */
+  background-color: var(--ios-mid-gray);
+  border-radius: 22px;
+  z-index: 1;
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.25);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+/* Navigation items */
+.tab-item {
+  flex: 1;
+  background: none;
+  border: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: var(--ios-text-secondary);
+  cursor: pointer;
+  z-index: 2;
+  position: relative;
+  transition: color 0.2s ease;
+}
+
+.tab-item.active {
+  color: var(--ios-blue);
+}
+
+.tab-icon {
+  margin-bottom: 2px;
+  transition: transform 0.2s ease;
+}
+
+.tab-item:active .tab-icon {
+  transform: scale(0.9);
+}
+
+.tab-label {
+  font-size: 10px;
+  font-weight: 500;
+}
+
+/* Floating round search button */
+.floating-search-btn {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  color: var(--ios-text-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 
+    0 10px 30px rgba(0,0,0,0.5),
+    0 1px 2px rgba(255,255,255,0.05);
+  pointer-events: auto; /* Re-enable clicks */
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.floating-search-btn:active {
+  background-color: var(--ios-mid-gray);
+  transform: scale(0.95);
+}
+
+/* Media query styling removed - application is natively full viewport on all devices */
+
+/* ==========================================================================
+   ACTIVE CALL SCREEN OVERLAY
+   ========================================================================== */
+.active-call-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at center, #1c1c1e 0%, #09090b 100%);
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 60px 24px 80px 24px;
+  transform: translateY(100%);
+  transition: transform 0.4s cubic-bezier(0.1, 0.76, 0.55, 0.94);
+}
+
+.active-call-overlay.active {
+  transform: translateY(0);
+}
+
+.active-call-header {
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ios-text-secondary);
+}
+
+.active-call-contact {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 30px;
+  flex: 1;
+  justify-content: center;
+}
+
+.active-call-avatar {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  font-weight: 500;
+  color: var(--ios-text-primary);
+  margin-bottom: 20px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+}
+
+.active-call-name {
+  font-size: 26px;
+  font-weight: 600;
+  color: var(--ios-text-primary);
+  margin-bottom: 8px;
+  text-align: center;
+  word-break: break-all;
+  padding: 0 16px;
+}
+
+.active-call-status {
+  font-size: 15px;
+  color: var(--ios-text-secondary);
+  font-weight: 500;
+}
+
+.active-call-tools {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px 32px;
+  width: 100%;
+  max-width: 270px;
+  margin-bottom: 50px;
+}
+
+.tool-btn {
+  background: none;
+  border: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: var(--ios-text-primary);
+  cursor: pointer;
+  outline: none;
+}
+
+.tool-icon-circle {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 8px;
+  transition: background-color 0.2s, transform 0.1s;
+}
+
+.tool-btn:active .tool-icon-circle {
+  background: rgba(255, 255, 255, 0.18);
+  transform: scale(0.95);
+}
+
+.tool-btn span {
+  font-size: 11px;
+  color: var(--ios-text-secondary);
+}
+
+.tool-btn.disabled {
+  opacity: 0.25;
+  pointer-events: none;
+}
+
+.active-call-actions {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.hangup-btn {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background-color: var(--ios-red);
+  border: none;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 10px 25px rgba(255, 69, 58, 0.3);
+  transition: transform 0.1s ease, background-color 0.2s ease;
+}
+
+.hangup-btn:active {
+  background-color: #d13030;
+  transform: scale(0.95);
+}
