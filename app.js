@@ -9,14 +9,12 @@ document.addEventListener('DOMContentLoaded', () => {
   let activeCallState = 'idle'; // 'idle', 'calling', 'active'
 
   // --- SELECTORS ---
-  // Active Call Screen Overlay Selectors
   const activeCallOverlay = document.getElementById('screen-active-call');
   const activeCallAvatarText = document.getElementById('active-call-avatar-text');
   const activeCallNameLabel = document.getElementById('active-call-name-label');
   const activeCallStatusLabel = document.getElementById('active-call-status-label');
   const btnHangup = document.getElementById('btn-hangup');
   
-  // Navigation Screens
   const screens = {
     calls: document.getElementById('screen-calls'),
     detail: document.getElementById('screen-detail'),
@@ -24,7 +22,6 @@ document.addEventListener('DOMContentLoaded', () => {
     keypad: document.getElementById('screen-keypad')
   };
   
-  // Bottom Tab Buttons
   const tabButtons = {
     calls: document.getElementById('tab-btn-calls'),
     contacts: document.getElementById('tab-btn-contacts'),
@@ -46,7 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const callsEmpty = document.getElementById('calls-empty');
   const btnFilterAll = document.getElementById('filter-all');
   const btnFilterMissed = document.getElementById('filter-missed');
-  let currentFilter = 'all'; // 'all' or 'missed'
+  let currentFilter = 'all'; 
 
   // Call Detail Screen Elements
   const btnDetailBack = document.getElementById('btn-detail-back');
@@ -56,6 +53,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const detailPhoneValue = document.getElementById('detail-phone-value');
   const detailCallHistoryContainer = document.getElementById('detail-call-history-container');
 
+  // Contacts Screen Elements
+  const contactsListContainer = document.getElementById('contacts-list-container');
+
   // Keypad Screen Elements
   const dialedNumberOutput = document.getElementById('dialed-number-output');
   const btnAddDialed = document.getElementById('btn-add-dialed');
@@ -63,170 +63,147 @@ document.addEventListener('DOMContentLoaded', () => {
   const btnKeypadBackspace = document.getElementById('btn-keypad-backspace');
   const keypadKeys = document.querySelectorAll('.dial-key');
 
-  // --- TIME AND DATE UTILITIES ---
+  // --- TIME AND DATE UTILITIES (VIETNAMESE) ---
 
-  // Get date strings for "Yesterday" and "Yesterday's Full Date"
-  function getYesterdayDates() {
-    const today = new Date();
-    const yesterday = new Date();
-    yesterday.setDate(today.getDate() - 1);
+  function formatTimeLabel(date) {
+    const now = new Date();
     
-    const yyyy = yesterday.getFullYear();
-    const mm = String(yesterday.getMonth() + 1).padStart(2, '0');
-    const dd = String(yesterday.getDate() + 2 - 2).padStart(2, '0'); // Safe padding
+    // Check if same calendar day
+    const isToday = date.toDateString() === now.toDateString();
     
-    return {
-      dateString: `${yyyy}/${mm}/${dd}`,
-      dayLabel: 'Yesterday'
-    };
-  }
-
-  // --- DATA GENERATOR (JAPANESE CALLS) ---
-  const jpNames = [
-    'Kenji Kobayashi', 'Akihiro Sato', 'Kiyoshi Tanaka', 'Sora Takahashi',
-    'Yuki Watanabe', 'Hiroshi Suzuki', 'Takashi Sato', 'Nicole (Instagram)',
-    'Minhhh', 'Kim Thư', 'Mẫu Thân'
-  ];
-
-  const jpRegions = ['Tokyo', 'Osaka', 'Yokohama', 'Nagoya', 'Kyoto', 'Japan', 'unknown'];
-
-  function generateJapaneseNumber() {
-    const types = ['mobile', 'mobile', 'mobile', 'ip', 'landline', 'tollfree'];
-    const selectedType = types[Math.floor(Math.random() * types.length)];
+    // Check if yesterday
+    const yesterday = new Date(now);
+    yesterday.setDate(now.getDate() - 1);
+    const isYesterday = date.toDateString() === yesterday.toDateString();
     
-    let prefix = '080';
-    let middle = String(Math.floor(1000 + Math.random() * 9000));
-    let end = String(Math.floor(1000 + Math.random() * 9000));
-    
-    if (selectedType === 'mobile') {
-      const prefixes = ['080', '090', '070'];
-      prefix = prefixes[Math.floor(Math.random() * prefixes.length)];
-    } else if (selectedType === 'ip') {
-      prefix = '050';
-    } else if (selectedType === 'landline') {
-      const prefixes = ['03', '06', '045', '052', '075'];
-      prefix = prefixes[Math.floor(Math.random() * prefixes.length)];
-      if (prefix.length === 2) {
-        middle = String(Math.floor(100 + Math.random() * 900));
-        end = String(Math.floor(1000 + Math.random() * 9000));
-      }
-    } else if (selectedType === 'tollfree') {
-      prefix = '0120';
-      middle = String(Math.floor(100 + Math.random() * 900));
-      end = String(Math.floor(100 + Math.random() * 900));
+    if (isToday) {
+      let hrs = date.getHours();
+      let mins = date.getMinutes();
+      return `${String(hrs).padStart(2, '0')}:${String(mins).padStart(2, '0')}`;
+    } else if (isYesterday) {
+      return 'Hôm qua';
     }
     
-    return `${prefix} ${middle} ${end}`;
+    // Check if within last 7 days
+    const diffTime = Math.abs(now - date);
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    if (diffDays < 7) {
+      const days = ['Chủ Nhật', 'Thứ Hai', 'Thứ Ba', 'Thứ Tư', 'Thứ Năm', 'Thứ Sáu', 'Thứ Bảy'];
+      return days[date.getDay()];
+    }
+    
+    // Older
+    const dd = String(date.getDate()).padStart(2, '0');
+    const mm = String(date.getMonth() + 1).padStart(2, '0');
+    return `${dd}/${mm}`;
   }
 
-  function getRegionFromNumber(num) {
-    if (num.startsWith('03')) return 'Tokyo';
-    if (num.startsWith('06')) return 'Osaka';
-    if (num.startsWith('045')) return 'Yokohama';
-    if (num.startsWith('0120')) return 'unknown';
-    return 'Japan';
+  // --- DATA GENERATOR (VIETNAMESE CALLS & CONTACTS) ---
+  const vnNames = [
+    'Nay Zin',
+    'Chân Trời Mới, Vui Kome, Bé Gạo, Tsu B...',
+    '野村さん',
+    'Anh Định',
+    'Nguyễn Hằng',
+    'Long Dinh Mart',
+    'Nguyễn Thị Thanh Thư',
+    'Nguyen Trong Dinh',
+    'Hoàng Thị Hồng Giang',
+    'Vũ Thị Tuyến',
+    'Toàn Nguyễn',
+    'Băng Tâm',
+    'Nguyễn Thị Phương Mai',
+    'Kaisha Green',
+    'Thi Nguyễn',
+    'Vũ Huệ',
+    'Chân Trời Mới',
+    'Đỗ Thị Minh Quí',
+    'Minh Hà',
+    'Thực Phẩm Việt SaiKyo',
+    'Bé Gạo, Bảo, Cskh Kome, Kome Cskh, N...',
+    'Phương Bình',
+    'Thực Phẩm Việt Anjō',
+    'Quỳnh Nguyễn',
+    'Trần Nguyên',
+    'Nguyên Tạ',
+    'Mai Tran',
+    'Xinmoi Tạp Hoá Hirakata',
+    'Vũ Thảo Linh',
+    'Kieu Diem'
+  ];
+
+  const callTypes = ['Messenger âm thanh', 'LINE âm thanh', 'điện thoại'];
+  const locations = ['Nhật Bản', 'Hà Nội', 'TP. HCM', 'Việt Nam'];
+
+  function generateVNPhoneNumber() {
+    const prefixes = ['090', '098', '035', '036', '086', '079'];
+    const prefix = prefixes[Math.floor(Math.random() * prefixes.length)];
+    const middle = String(Math.floor(100 + Math.random() * 900));
+    const end = String(Math.floor(1000 + Math.random() * 9000));
+    return `${prefix} ${middle} ${end}`;
   }
 
   function generateCallLogs() {
     const logs = [];
-    const yesterday = new Date();
-    yesterday.setDate(yesterday.getDate() - 1);
+    const now = new Date();
     
-    // Start at yesterday at 09:00:00
-    const currentCallTime = new Date(yesterday);
-    currentCallTime.setHours(9, 0, 0, 0);
+    // We want to generate logs over the last 5 days
+    // Let's create an active pool of contacts
+    const pool = [];
     
-    // End at yesterday at 16:00:00
-    const endLimit = new Date(yesterday);
-    endLimit.setHours(16, 0, 0, 0);
+    // Force specific contacts for realism matching screenshots
+    pool.push({ name: 'Nay Zin', number: '080 1234 5678', callType: 'LINE âm thanh', location: 'Nhật Bản' });
+    pool.push({ name: 'Chân Trời Mới, Vui Kome, Bé Gạo, Tsu B...', number: '090 999 8888', callType: 'Messenger âm thanh', location: 'Việt Nam' });
+    pool.push({ name: '野村さん', number: '080 9015 3089', callType: 'điện thoại', location: 'Nhật Bản' });
+    pool.push({ name: 'Anh Định', number: '035 123 4567', callType: 'điện thoại', location: 'Hà Nội' });
+    pool.push({ name: 'Nguyễn Hằng', number: '098 765 4321', callType: 'Messenger âm thanh', location: 'TP. HCM' });
+    pool.push({ name: 'Long Dinh Mart', number: '090 222 3333', callType: 'Messenger âm thanh', location: 'Việt Nam' });
     
-    // We want to generate numbers, but also group them occasionally (simulate dialing the same contact multiple times)
-    const activeNumberPool = [];
-    for (let i = 0; i < 15; i++) {
-      activeNumberPool.push({
-        number: generateJapaneseNumber(),
-        name: Math.random() > 0.65 ? jpNames[Math.floor(Math.random() * jpNames.length)] : null
-      });
-    }
+    // Add raw number (no name)
+    pool.push({ name: null, number: '080 9015 3089', callType: 'điện thoại', location: 'Nhật Bản' });
 
-    while (currentCallTime < endLimit) {
-      // Pick from pool or generate new (60% pool, 40% new)
-      let contact;
-      if (Math.random() > 0.4 && activeNumberPool.length > 0) {
-        contact = activeNumberPool[Math.floor(Math.random() * activeNumberPool.length)];
-      } else {
-        contact = {
-          number: generateJapaneseNumber(),
-          name: Math.random() > 0.85 ? jpNames[Math.floor(Math.random() * jpNames.length)] : null
-        };
-        // Add to pool occasionally, remove oldest
-        if (activeNumberPool.length < 25) {
-          activeNumberPool.push(contact);
-        } else {
-          activeNumberPool.shift();
-          activeNumberPool.push(contact);
-        }
+    // Fill the rest with random names
+    vnNames.forEach(name => {
+      if (!pool.some(p => p.name === name)) {
+        pool.push({
+          name: name,
+          number: generateVNPhoneNumber(),
+          callType: callTypes[Math.floor(Math.random() * callTypes.length)],
+          location: locations[Math.floor(Math.random() * locations.length)]
+        });
       }
+    });
 
-      // Outgoing call properties (calling consecutively every ~5 mins)
-      // Duration is about 5 mins (e.g. 4.5 to 5.5 mins)
-      const isAnswered = Math.random() > 0.25; // 75% picked up
-      let durationSeconds = 0;
-      let status = 'no-answer';
-      let ringDuration = 30 + Math.floor(Math.random() * 15); // Ringing time: 30-45s
+    // Generate call logs distributed over days
+    for (let dayOffset = 0; dayOffset < 5; dayOffset++) {
+      const callDate = new Date(now);
+      callDate.setDate(now.getDate() - dayOffset);
       
-      if (isAnswered) {
-        durationSeconds = 250 + Math.floor(Math.random() * 80); // ~4.5 to 5.5 minutes
-        status = 'answered';
+      // Random number of calls on this day
+      const count = dayOffset === 0 ? 5 : 8 + Math.floor(Math.random() * 5);
+      
+      for (let i = 0; i < count; i++) {
+        const contact = pool[Math.floor(Math.random() * pool.length)];
+        
+        // Random hour & minute
+        const timestamp = new Date(callDate);
+        timestamp.setHours(9 + Math.floor(Math.random() * 8), Math.floor(Math.random() * 60), 0, 0);
+
+        const isMissed = Math.random() > 0.7; // 30% missed calls
+        const direction = Math.random() > 0.4 ? 'incoming' : 'outgoing';
+        
+        logs.push({
+          id: Math.random().toString(36).substring(2, 9),
+          name: contact.name,
+          number: contact.number,
+          location: contact.location,
+          callType: contact.callType,
+          direction: direction,
+          status: isMissed ? 'missed' : 'answered',
+          startTime: timestamp,
+          duration: isMissed ? 0 : 30 + Math.floor(Math.random() * 300)
+        });
       }
-
-      // Record call entry
-      // Copy current call time
-      const callStart = new Date(currentCallTime);
-      
-      logs.push({
-        id: Math.random().toString(36).substring(2, 9),
-        name: contact.name,
-        number: contact.number,
-        location: getRegionFromNumber(contact.number),
-        direction: 'outgoing', // Outbound campaign
-        status: status,
-        startTime: callStart,
-        duration: durationSeconds
-      });
-
-      // Advance time: call duration/ringing + post-call gap (30s to 2 mins)
-      const gapSeconds = 30 + Math.floor(Math.random() * 90);
-      const elapsedSeconds = (status === 'answered' ? durationSeconds : ringDuration) + gapSeconds;
-      
-      currentCallTime.setSeconds(currentCallTime.getSeconds() + elapsedSeconds);
-    }
-    
-    // Inject a few incoming missed/answered calls to make history look realistic like screenshots
-    // These occurred at random times yesterday
-    const numIncoming = 4 + Math.floor(Math.random() * 4);
-    for (let i = 0; i < numIncoming; i++) {
-      const randHour = 9 + Math.floor(Math.random() * 7); // 9 to 15
-      const randMin = Math.floor(Math.random() * 60);
-      const incomingTime = new Date(yesterday);
-      incomingTime.setHours(randHour, randMin, 0, 0);
-
-      const contact = {
-        number: generateJapaneseNumber(),
-        name: Math.random() > 0.6 ? jpNames[Math.floor(Math.random() * jpNames.length)] : null
-      };
-
-      const isMissed = Math.random() > 0.5;
-      logs.push({
-        id: Math.random().toString(36).substring(2, 9),
-        name: contact.name,
-        number: contact.number,
-        location: getRegionFromNumber(contact.number),
-        direction: 'incoming',
-        status: isMissed ? 'missed' : 'answered',
-        startTime: incomingTime,
-        duration: isMissed ? 0 : 60 + Math.floor(Math.random() * 200)
-      });
     }
 
     // Sort calls: descending chronological order (newest first)
@@ -235,8 +212,6 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // --- GROUPING LOGIC (iOS style) ---
-  // In iOS, consecutive calls to/from the same number are grouped together.
-  // We will build a function to group them for the list display.
   function groupCallLogs(logs) {
     const grouped = [];
     if (logs.length === 0) return grouped;
@@ -244,13 +219,12 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentGroup = null;
     
     logs.forEach(log => {
-      // Check if we can group with previous
-      // Grouping criteria: same number AND same call status type (missed vs normal)
-      const isMissed = log.status === 'missed' || log.status === 'no-answer';
+      const isMissed = log.status === 'missed';
       
       if (currentGroup && 
           currentGroup.number === log.number && 
-          currentGroup.isMissed === isMissed) {
+          currentGroup.isMissed === isMissed &&
+          currentGroup.name === log.name) {
         currentGroup.calls.push(log);
       } else {
         if (currentGroup) {
@@ -261,8 +235,8 @@ document.addEventListener('DOMContentLoaded', () => {
           name: log.name,
           number: log.number,
           location: log.location,
+          callType: log.callType,
           isMissed: isMissed,
-          // Store all logs in this group
           calls: [log]
         };
       }
@@ -277,15 +251,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // --- RENDER CALL LOG LIST ---
   function renderCallList(filter = 'all', searchQuery = '') {
-    // 1. Filter original raw logs
     let filteredLogs = [...callLogs];
     
-    // Filter by tab: All vs Missed
     if (filter === 'missed') {
-      filteredLogs = filteredLogs.filter(log => log.status === 'missed' || log.status === 'no-answer');
+      filteredLogs = filteredLogs.filter(log => log.status === 'missed');
     }
     
-    // Filter by search query if any
     if (searchQuery.trim() !== '') {
       const query = searchQuery.toLowerCase();
       filteredLogs = filteredLogs.filter(log => {
@@ -296,9 +267,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
 
-    // Group the filtered logs for list view
     const grouped = groupCallLogs(filteredLogs);
-    
     const container = searchQuery ? searchResultsList : callLogListContainer;
     container.innerHTML = '';
     
@@ -315,46 +284,44 @@ document.addEventListener('DOMContentLoaded', () => {
       const latestCall = group.calls[0];
       const count = group.calls.length;
       
-      // Determine label (name or number)
       const displayName = group.name || group.number;
-      
-      // Secondary text formatting: arrow icon + location/type
       const directionArrow = latestCall.direction === 'outgoing' ? '↗' : '↙';
-      const metaText = `${directionArrow} ${group.location}${count > 1 ? ` (${count})` : ''}`;
       
-      // Format time label for row
-      // Since they are all yesterday, show "Yesterday"
-      // Except if it happens to match today's date (active dialing logs)
-      const now = new Date();
-      const isToday = latestCall.startTime.toDateString() === now.toDateString();
-      let timeLabel = 'Yesterday';
-      if (isToday) {
-        let hrs = latestCall.startTime.getHours();
-        let mins = latestCall.startTime.getMinutes();
-        timeLabel = `${String(hrs).padStart(2, '0')}:${String(mins).padStart(2, '0')}`;
-      }
-
-      // Initials for avatar
-      let initials = 'JP';
+      // Determine label text in Vietnamese
+      let labelText = '';
       if (group.name) {
-        const parts = group.name.split(' ');
-        if (parts.length >= 2) {
-          initials = (parts[0][0] + parts[1][0]).toUpperCase();
-        } else {
-          initials = group.name.substring(0, 2).toUpperCase();
-        }
+        labelText = group.callType || 'điện thoại';
       } else {
-        // Try getting region initials or default
-        initials = group.number.substring(0, 3);
+        labelText = group.location || 'Nhật Bản';
+      }
+      
+      const metaText = `${labelText}${count > 1 ? ` (${count})` : ''}`;
+      const timeLabel = formatTimeLabel(latestCall.startTime);
+
+      // Render custom silhouette avatar or letter-based avatar
+      let avatarHTML = '';
+      if (group.name && group.name.startsWith('Anh ')) {
+        const letter = group.name.replace('Anh ', '')[0].toUpperCase();
+        avatarHTML = `<div class="call-avatar letter">${letter}</div>`;
+      } else if (group.name && group.name.startsWith('Nguyễn ')) {
+        const letter = group.name.replace('Nguyễn ', '')[0].toUpperCase();
+        avatarHTML = `<div class="call-avatar letter">${letter}</div>`;
+      } else {
+        avatarHTML = `
+          <div class="call-avatar silhouette">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+              <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+            </svg>
+          </div>
+        `;
       }
 
-      // Create item
       const itemEl = document.createElement('div');
       itemEl.className = `call-item ${group.isMissed ? 'missed' : ''}`;
       itemEl.dataset.id = group.id;
       
       itemEl.innerHTML = `
-        <div class="call-avatar">${initials}</div>
+        ${avatarHTML}
         <div class="call-info-wrap">
           <div class="call-number-name">${displayName}</div>
           <div class="call-meta">
@@ -372,9 +339,7 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
       `;
 
-      // Event listener: click row to open details
       itemEl.addEventListener('click', (e) => {
-        // If clicking the dial button, don't open detail
         if (e.target.closest('.call-action-btn')) {
           const number = e.target.closest('.call-action-btn').dataset.phone;
           dialNumber(number);
@@ -387,16 +352,52 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // --- RENDER CONTACTS LIST ---
+  function renderContactsList() {
+    contactsListContainer.innerHTML = '';
+    
+    // Sort names alphabetically
+    const sortedNames = [...vnNames].sort((a, b) => a.localeCompare(b, 'vi'));
+    
+    let currentLetter = '';
+    
+    sortedNames.forEach(name => {
+      // Get first letter
+      let firstChar = name.charAt(0).toUpperCase();
+      
+      // Normalise Vietnamese accents for headers
+      const normalizedChar = firstChar.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+      
+      if (normalizedChar !== currentLetter) {
+        currentLetter = normalizedChar;
+        const letterHeader = document.createElement('div');
+        letterHeader.className = 'contact-section-header';
+        letterHeader.textContent = currentLetter;
+        contactsListContainer.appendChild(letterHeader);
+      }
+      
+      const itemEl = document.createElement('div');
+      itemEl.className = 'contact-item';
+      itemEl.textContent = name;
+      
+      itemEl.addEventListener('click', () => {
+        // Dial contact
+        const contactNumber = generateVNPhoneNumber();
+        dialNumber(contactNumber);
+      });
+      
+      contactsListContainer.appendChild(itemEl);
+    });
+  }
+
   // --- CALL DETAIL PAGE NAVIGATION ---
   function openCallDetails(group) {
-    // Set headers
     const displayName = group.name || group.number;
     detailPhoneLabel.textContent = displayName;
     detailPhoneValue.textContent = group.number;
     detailLocationLabel.textContent = group.location.toUpperCase();
     
-    // Set avatar initials
-    let initials = 'JP';
+    let initials = 'TN';
     if (group.name) {
       const parts = group.name.split(' ');
       initials = parts.length >= 2 ? (parts[0][0] + parts[1][0]).toUpperCase() : group.name.substring(0, 2).toUpperCase();
@@ -405,7 +406,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     detailAvatarText.textContent = initials;
     
-    // Populate details call logs
     detailCallHistoryContainer.innerHTML = '';
     
     group.calls.forEach(call => {
@@ -414,18 +414,14 @@ document.addEventListener('DOMContentLoaded', () => {
       
       const dateLabel = formatFullDateTime(call.startTime);
       
-      // Determine description
       let statusDesc = '';
       let isMissedClass = false;
       if (call.status === 'missed') {
-        statusDesc = 'Missed Call';
-        isMissedClass = true;
-      } else if (call.status === 'no-answer') {
-        statusDesc = 'No Answer';
+        statusDesc = 'Cuộc gọi nhỡ';
         isMissedClass = true;
       } else {
         const durationText = formatDuration(call.duration);
-        statusDesc = `${call.direction === 'outgoing' ? 'Outgoing Call' : 'Incoming Call'} (${durationText})`;
+        statusDesc = `${call.direction === 'outgoing' ? 'Cuộc gọi đi' : 'Cuộc gọi đến'} (${durationText})`;
       }
       
       rowEl.innerHTML = `
@@ -435,7 +431,6 @@ document.addEventListener('DOMContentLoaded', () => {
       detailCallHistoryContainer.appendChild(rowEl);
     });
 
-    // Slide detail view in
     screens.detail.classList.add('active');
   }
 
@@ -445,7 +440,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const dd = String(date.getDate()).padStart(2, '0');
     const hrs = String(date.getHours()).padStart(2, '0');
     const mins = String(date.getMinutes()).padStart(2, '0');
-    return `${yyyy}/${mm}/${dd} · ${hrs}:${mins}`;
+    return `${dd}/${mm}/${yyyy} · ${hrs}:${mins}`;
   }
 
   function formatDuration(seconds) {
@@ -453,7 +448,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;
     if (mins > 0) {
-      return `${mins}m ${secs}s`;
+      return `${mins}p ${secs}s`;
     }
     return `${secs}s`;
   }
@@ -461,23 +456,18 @@ document.addEventListener('DOMContentLoaded', () => {
   // --- TAB NAVIGATION SWITCHER ---
   function switchTab(tabName) {
     currentActiveTab = tabName;
-    
-    // Close detail screen if open
     screens.detail.classList.remove('active');
     
-    // Update active screen class
     Object.keys(screens).forEach(key => {
       if (key !== 'detail') {
         screens[key].classList.toggle('active', key === tabName);
       }
     });
 
-    // Update active tab buttons
     Object.keys(tabButtons).forEach(key => {
       tabButtons[key].classList.toggle('active', key === tabName);
     });
 
-    // Slide tab indicator pill background
     let slideAmount = 0;
     if (tabName === 'contacts') {
       slideAmount = 88;
@@ -487,17 +477,14 @@ document.addEventListener('DOMContentLoaded', () => {
     tabPill.style.transform = `translateX(${slideAmount}px)`;
   }
 
-  // Tab button listeners
   Object.keys(tabButtons).forEach(key => {
     tabButtons[key].addEventListener('click', () => switchTab(key));
   });
 
-  // Back button on detail screen
   btnDetailBack.addEventListener('click', () => {
     screens.detail.classList.remove('active');
   });
 
-  // --- FILTER SYSTEM (ALL / MISSED) ---
   btnFilterAll.addEventListener('click', () => {
     currentFilter = 'all';
     btnFilterAll.classList.add('active');
@@ -512,7 +499,6 @@ document.addEventListener('DOMContentLoaded', () => {
     renderCallList(currentFilter);
   });
 
-  // --- SEARCH DRAWER OVERLAY ---
   btnOpenSearch.addEventListener('click', () => {
     searchDrawer.classList.add('active');
     searchInputField.value = '';
@@ -537,18 +523,13 @@ document.addEventListener('DOMContentLoaded', () => {
     renderCallList(currentFilter, '');
   });
 
-  // --- KEYPAD DIALER DIALOGUE ---
-  
-  // Format phone output dynamically
+  // --- KEYPAD DIALER ---
   function updateKeypadDisplay() {
     dialedNumberOutput.textContent = dialedNumber;
-    
-    // Show backspace and Add Contact buttons if digits entered
     const hasDigits = dialedNumber.length > 0;
     btnKeypadBackspace.style.visibility = hasDigits ? 'visible' : 'hidden';
     btnAddDialed.style.display = hasDigits ? 'block' : 'none';
     
-    // Scale numbers text if too long
     if (dialedNumber.length > 10) {
       dialedNumberOutput.style.fontSize = '26px';
     } else if (dialedNumber.length > 7) {
@@ -564,8 +545,6 @@ document.addEventListener('DOMContentLoaded', () => {
       if (dialedNumber.length < 16) {
         dialedNumber += val;
         updateKeypadDisplay();
-        
-        // Dynamic feedback audio/vibe could be added here
       }
     });
   });
@@ -575,7 +554,6 @@ document.addEventListener('DOMContentLoaded', () => {
     updateKeypadDisplay();
   });
 
-  // Long press backspace to clear all
   let backspaceTimer;
   btnKeypadBackspace.addEventListener('mousedown', () => {
     backspaceTimer = setTimeout(() => {
@@ -597,7 +575,6 @@ document.addEventListener('DOMContentLoaded', () => {
   function dialNumber(number) {
     if (!number) return;
     
-    // Clean dynamic island and call overlay state
     if (activeCallInterval) {
       clearInterval(activeCallInterval);
     }
@@ -606,10 +583,8 @@ document.addEventListener('DOMContentLoaded', () => {
     activeCallState = 'calling';
     activeCallSeconds = 0;
     
-    // Determine avatar initials for active call screen
-    let initials = 'JP';
+    let initials = 'TN';
     let displayName = number;
-    // Check if the number matches any contact
     const contactMatch = callLogs.find(c => c.number === number && c.name);
     if (contactMatch) {
       displayName = contactMatch.name;
@@ -621,16 +596,12 @@ document.addEventListener('DOMContentLoaded', () => {
     
     activeCallAvatarText.textContent = initials;
     activeCallNameLabel.textContent = displayName;
-    activeCallStatusLabel.textContent = 'calling...';
+    activeCallStatusLabel.textContent = 'đang gọi...';
     
-    // Slide Up Active Call Overlay
     activeCallOverlay.classList.add('active');
     
-    // Simulate calling progress
-    // after 1.5 seconds, set status to 'connecting...'
-    // after 3 seconds, call is answered and starts ticking
     let connectionTimeout = setTimeout(() => {
-      activeCallStatusLabel.textContent = 'connecting...';
+      activeCallStatusLabel.textContent = 'đang kết nối...';
     }, 1500);
     
     let answerTimeout = setTimeout(() => {
@@ -645,9 +616,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }, 1000);
     }, 3000);
 
-    // Hangup handler closure
     function hangUpCall() {
-      // Clear timers
       clearTimeout(connectionTimeout);
       clearTimeout(answerTimeout);
       if (activeCallInterval) {
@@ -655,17 +624,13 @@ document.addEventListener('DOMContentLoaded', () => {
         activeCallInterval = null;
       }
       
-      // Save call to logs (only if it reached active calling state or was dialled)
-      // If duration is 0, it's considered unanswered (no-answer / cancelled)
-      // Otherwise, save actual call duration (or default to 5 minutes for simulation if hung up immediately after answer)
       let finalDuration = activeCallSeconds;
       let finalStatus = 'answered';
       
       if (activeCallState === 'calling') {
         finalDuration = 0;
-        finalStatus = 'no-answer';
+        finalStatus = 'missed';
       } else {
-        // If hung up very quickly, give it a simulated 5 minutes (300 seconds) for user history requirements
         if (finalDuration < 3) {
           finalDuration = 300; 
         }
@@ -675,7 +640,8 @@ document.addEventListener('DOMContentLoaded', () => {
         id: Math.random().toString(36).substring(2, 9),
         name: contactMatch ? contactMatch.name : null,
         number: activeCallNumber,
-        location: getRegionFromNumber(activeCallNumber.replace(/\s+/g, '')),
+        location: contactMatch ? contactMatch.location : 'Việt Nam',
+        callType: contactMatch ? contactMatch.callType : 'điện thoại',
         direction: 'outgoing',
         status: finalStatus,
         startTime: new Date(),
@@ -685,16 +651,11 @@ document.addEventListener('DOMContentLoaded', () => {
       callLogs.unshift(newCall);
       renderCallList(currentFilter);
       
-      // Slide down active call overlay
       activeCallOverlay.classList.remove('active');
-      
       activeCallState = 'idle';
-      
-      // Remove this event listener to avoid stacking
       btnHangup.removeEventListener('click', hangUpCall);
     }
     
-    // Attach Hang Up Button Listener
     btnHangup.addEventListener('click', hangUpCall);
   }
 
@@ -704,7 +665,6 @@ document.addEventListener('DOMContentLoaded', () => {
       dialedNumber = '';
       updateKeypadDisplay();
     } else {
-      // Dial last number in history
       if (callLogs.length > 0) {
         dialedNumber = callLogs[0].number;
         updateKeypadDisplay();
@@ -721,5 +681,6 @@ document.addEventListener('DOMContentLoaded', () => {
   // --- INITIALIZE APPLICATION ---
   callLogs = generateCallLogs();
   renderCallList('all');
+  renderContactsList();
   switchTab('calls');
 });

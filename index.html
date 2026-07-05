@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>Phone</title>
+  <title>Điện thoại</title>
   <link rel="stylesheet" href="style.css">
   <!-- iOS Web App Standalone Meta Tags -->
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="Phone">
+  <meta name="apple-mobile-web-app-title" content="Điện thoại">
   <!-- Import Inter font for a clean, premium look mimicking SF Pro -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -28,8 +28,8 @@
         <div class="screen active" id="screen-calls">
           <!-- Header -->
           <header class="view-header">
-            <button class="header-btn left-btn" id="btn-calls-edit">Edit</button>
-            <h1 class="header-title">Calls</h1>
+            <button class="header-btn left-btn" id="btn-calls-edit">Sửa</button>
+            <h1 class="header-title">Cuộc gọi</h1>
             <button class="header-btn right-btn" id="btn-calls-filter">
               <!-- iOS 18 List Filter Icon SVG -->
               <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -50,23 +50,23 @@
                 <div class="avatar-placeholder" style="display:none;">TN</div>
               </div>
               <div class="share-name-info">
-                <span class="share-title">Tri Nguyen Tran</span>
-                <span class="share-subtitle">Share Your Name & Photo</span>
+                <span class="share-title">Trần Nguyên Trí</span>
+                <span class="share-subtitle">Chia sẻ tên & ảnh</span>
               </div>
               <svg class="chevron-right" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5">
                 <polyline points="9 18 15 12 9 6"></polyline>
               </svg>
             </div>
             
-            <!-- Quick Filter Bar (All / Missed) -->
-            <div class="sub-filter-bar">
-              <button class="sub-filter-tab active" id="filter-all">All</button>
-              <button class="sub-filter-tab" id="filter-missed">Missed</button>
+            <!-- Quick Filter Bar (All / Missed) - Hidden/Styled based on screenshots -->
+            <div class="sub-filter-bar" style="display: none;">
+              <button class="sub-filter-tab active" id="filter-all">Tất cả</button>
+              <button class="sub-filter-tab" id="filter-missed">Bị nhỡ</button>
             </div>
 
             <!-- Empty Call Log state -->
             <div class="empty-state" id="calls-empty" style="display: none;">
-              No Recent Calls
+              Không có cuộc gọi gần đây
             </div>
 
             <!-- Call Log List -->
@@ -86,9 +86,9 @@
               <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                 <polyline points="15 18 9 12 15 6"></polyline>
               </svg>
-              <span>Calls</span>
+              <span>Cuộc gọi</span>
             </button>
-            <button class="header-btn" id="btn-detail-edit">Edit</button>
+            <button class="header-btn" id="btn-detail-edit">Sửa</button>
           </header>
 
           <div class="scroll-content detail-content">
@@ -96,10 +96,10 @@
             <div class="detail-profile-section">
               <div class="detail-avatar" id="detail-avatar-container">
                 <!-- Initials or icon -->
-                <span id="detail-avatar-text">JP</span>
+                <span id="detail-avatar-text">TN</span>
               </div>
-              <div class="detail-country" id="detail-location-label">JAPAN</div>
-              <div class="detail-number" id="detail-phone-label">050 1724 6188</div>
+              <div class="detail-country" id="detail-location-label">VIỆT NAM</div>
+              <div class="detail-number" id="detail-phone-label">090 123 4567</div>
             </div>
 
             <!-- Circle Quick Action Buttons -->
@@ -108,13 +108,13 @@
                 <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
                   <path d="M20,2H4C2.9,2,2,2.9,2,4v18l4-4h14c1.1,0,2-0.9,2-2V4C22,2.9,21.1,2,20,2z"/>
                 </svg>
-                <span>message</span>
+                <span>nhắn tin</span>
               </button>
               <button class="action-circle-btn">
                 <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
                   <path d="M20.01,15.38c-1.23,0-2.42-0.2-3.53-0.57c-0.35-0.11-0.74-0.03-1.02,0.24l-2.2,2.2c-2.83-1.44-5.15-3.75-6.59-6.59l2.2-2.21c0.28-0.26,0.36-0.65,0.25-1C8.75,6.41,8.55,5.22,8.55,4c0-0.55-0.45-1-1-1H4c-0.55,0-1,0.45-1,1c0,9.39,7.61,17,17,17c0.55,0,1-0.45,1-1v-3.5C21.01,15.83,20.56,15.38,20.01,15.38z"/>
                 </svg>
-                <span>call</span>
+                <span>gọi</span>
               </button>
               <button class="action-circle-btn">
                 <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
@@ -126,20 +126,20 @@
                 <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
                   <path d="M20,4H4C2.9,4,2.01,4.9,2.01,6L2,18c0,1.1,0.9,2,2,2h16c1.1,0,2-0.9,2-2V6C22,4.9,21.1,4,20,4z M20,8l-8,5L4,8V6l8,5l8-5V8z"/>
                 </svg>
-                <span>mail</span>
+                <span>thư</span>
               </button>
             </div>
 
             <!-- Call History Card -->
             <div class="detail-info-card">
               <div class="card-header">
-                <h3>Call History</h3>
+                <h3>Lịch sử cuộc gọi</h3>
                 <svg class="chevron-right" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" style="opacity: 0.3;">
                   <polyline points="9 18 15 12 9 6"></polyline>
                 </svg>
               </div>
               <div class="detail-call-history-list" id="detail-call-history-container">
-                <!-- Dynamically Populated by app.js (e.g. Missed Call 2026/07/04 14:15) -->
+                <!-- Dynamically Populated by app.js -->
               </div>
             </div>
 
@@ -147,8 +147,8 @@
             <div class="detail-menu-card">
               <div class="detail-menu-item">
                 <div class="menu-item-text">
-                  <span class="label">phone <span class="badge">RECENT</span></span>
-                  <span class="value" id="detail-phone-value">050 1724 6188</span>
+                  <span class="label">điện thoại <span class="badge">GẦN ĐÂY</span></span>
+                  <span class="value" id="detail-phone-value">090 123 4567</span>
                 </div>
                 <button class="menu-icon-btn">
                   <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
@@ -161,26 +161,26 @@
             <!-- Create / Edit Contact Options -->
             <div class="detail-menu-card">
               <div class="detail-menu-item interactable">
-                <span>Share Contact</span>
+                <span>Chia sẻ liên hệ</span>
               </div>
               <div class="detail-menu-item interactable">
-                <span>Create New Contact</span>
+                <span>Tạo liên hệ mới</span>
               </div>
               <div class="detail-menu-item interactable">
-                <span>Add to Existing Contact</span>
+                <span>Thêm vào liên hệ hiện có</span>
               </div>
             </div>
 
             <!-- Secondary Actions -->
             <div class="detail-menu-card">
               <div class="detail-menu-item interactable">
-                <span>Add to Emergency Contacts</span>
+                <span>Thêm vào liên hệ khẩn cấp</span>
               </div>
             </div>
 
             <div class="detail-menu-card">
               <div class="detail-menu-item interactable danger">
-                <span>Block Contact</span>
+                <span>Chặn người gọi này</span>
               </div>
             </div>
           </div>
@@ -192,8 +192,8 @@
         <div class="screen" id="screen-contacts">
           <header class="view-header">
             <button class="header-btn left-btn">+</button>
-            <h1 class="header-title">Contacts</h1>
-            <button class="header-btn right-btn">Groups</button>
+            <h1 class="header-title">Danh bạ</h1>
+            <button class="header-btn right-btn">Nhóm</button>
           </header>
           
           <div class="scroll-content">
@@ -203,27 +203,11 @@
                 <circle cx="11" cy="11" r="8"></circle>
                 <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
               </svg>
-              <input type="text" placeholder="Search" disabled>
+              <input type="text" placeholder="Tìm kiếm" disabled>
             </div>
             
-            <div class="contacts-list">
-              <!-- A simple list of mock names for realism -->
-              <div class="contact-section-header">A</div>
-              <div class="contact-item">Abe Shinzo</div>
-              <div class="contact-item">Akihiro Sato</div>
-              
-              <div class="contact-section-header">K</div>
-              <div class="contact-item">Kenji Kobayashi</div>
-              <div class="contact-item">Kiyoshi Tanaka</div>
-              
-              <div class="contact-section-header">N</div>
-              <div class="contact-item">Nicole (Instagram)</div>
-              
-              <div class="contact-section-header">S</div>
-              <div class="contact-item">Sora Takahashi</div>
-              
-              <div class="contact-section-header">T</div>
-              <div class="contact-item">Tri Nguyen Tran</div>
+            <div class="contacts-list" id="contacts-list-container">
+              <!-- Will be populated dynamically to match calls list -->
             </div>
           </div>
         </div>
@@ -236,7 +220,7 @@
             <!-- Dialer Display -->
             <div class="dialer-display">
               <div class="dialed-number" id="dialed-number-output"></div>
-              <button class="add-number-btn" id="btn-add-dialed" style="display: none;">Add Number</button>
+              <button class="add-number-btn" id="btn-add-dialed" style="display: none;">Thêm số</button>
             </div>
             
             <!-- Dial Grid -->
@@ -288,17 +272,17 @@
               <circle cx="11" cy="11" r="8"></circle>
               <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
             </svg>
-            <input type="text" id="search-input-field" placeholder="Search numbers or locations...">
+            <input type="text" id="search-input-field" placeholder="Tìm kiếm số điện thoại...">
             <button class="clear-search-btn" id="btn-clear-search" style="display: none;">&times;</button>
           </div>
-          <button class="cancel-search-btn" id="btn-cancel-search">Cancel</button>
+          <button class="cancel-search-btn" id="btn-cancel-search">Hủy</button>
         </div>
         <div class="search-results-content">
           <div class="call-log-list" id="search-results-list">
             <!-- Search Results populated dynamically -->
           </div>
           <div class="search-empty-state" id="search-empty" style="display: none;">
-            No Results Found
+            Không tìm thấy kết quả
           </div>
         </div>
       </div>
@@ -317,7 +301,7 @@
               <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/>
               <polyline points="12 6 12 12 16 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
             </svg>
-            <span class="tab-label">Calls</span>
+            <span class="tab-label">Cuộc gọi</span>
           </button>
           
           <button class="tab-item" data-tab="contacts" id="tab-btn-contacts">
@@ -325,7 +309,7 @@
               <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
               <circle cx="12" cy="7" r="4"></circle>
             </svg>
-            <span class="tab-label">Contacts</span>
+            <span class="tab-label">Danh bạ</span>
           </button>
           
           <button class="tab-item" data-tab="keypad" id="tab-btn-keypad">
@@ -340,12 +324,12 @@
               <circle cx="12" cy="18" r="2" />
               <circle cx="18" cy="18" r="2" />
             </svg>
-            <span class="tab-label">Keypad</span>
+            <span class="tab-label">Bàn phím</span>
           </button>
         </nav>
         
         <!-- Floating Search Action Button -->
-        <button class="floating-search-btn" id="btn-open-search" aria-label="Search">
+        <button class="floating-search-btn" id="btn-open-search" aria-label="Tìm kiếm">
           <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5">
             <circle cx="11" cy="11" r="8"></circle>
             <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
@@ -360,13 +344,13 @@
             <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
             <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
           </svg>
-          <span style="opacity: 0.5; font-size: 11px; font-weight: 500; vertical-align: middle;">End-to-End Encrypted</span>
+          <span style="opacity: 0.5; font-size: 11px; font-weight: 500; vertical-align: middle;">Mã hóa đầu cuối</span>
         </div>
         
         <div class="active-call-contact">
-          <div class="active-call-avatar" id="active-call-avatar-text">050</div>
-          <div class="active-call-name" id="active-call-name-label">050 1724 6188</div>
-          <div class="active-call-status" id="active-call-status-label">calling...</div>
+          <div class="active-call-avatar" id="active-call-avatar-text">090</div>
+          <div class="active-call-name" id="active-call-name-label">090 123 4567</div>
+          <div class="active-call-status" id="active-call-status-label">đang gọi...</div>
         </div>
 
         <div class="active-call-tools">
@@ -376,7 +360,7 @@
                 <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.3-3c0 3-2.54 5.1-5.3 5.1S6.7 14 6.7 11H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c3.28-.48 6-3.3 6-6.72h-1.7z"/>
               </svg>
             </div>
-            <span>mute</span>
+            <span>tắt tiếng</span>
           </button>
           <button class="tool-btn">
             <div class="tool-icon-circle">
@@ -392,7 +376,7 @@
                 <circle cx="18" cy="18" r="2"/>
               </svg>
             </div>
-            <span>keypad</span>
+            <span>bàn phím</span>
           </button>
           <button class="tool-btn">
             <div class="tool-icon-circle">
@@ -400,7 +384,7 @@
                 <path d="M8 9H5v6h3l4 4V5L8 9zm11 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM16.5 3v2.02c2.58.81 4.5 3.2 4.5 6.05s-1.92 5.24-4.5 6.05V19.2c3.71-.85 6.5-4.18 6.5-8.15s-2.79-7.3-6.5-8.15z"/>
               </svg>
             </div>
-            <span>speaker</span>
+            <span>loa ngoài</span>
           </button>
           <button class="tool-btn disabled">
             <div class="tool-icon-circle">
@@ -408,7 +392,7 @@
                 <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
               </svg>
             </div>
-            <span>add call</span>
+            <span>thêm cuộc gọi</span>
           </button>
           <button class="tool-btn disabled">
             <div class="tool-icon-circle">
@@ -424,7 +408,7 @@
                 <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
               </svg>
             </div>
-            <span>contacts</span>
+            <span>danh bạ</span>
           </button>
         </div>
 

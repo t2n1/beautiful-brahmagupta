@@ -4,23 +4,23 @@
 
 /* Design Tokens & Custom CSS Variables */
 :root {
-  --ios-black: #000000;
-  --ios-dark-gray: #1c1c1e;
-  --ios-mid-gray: #2c2c2e;
-  --ios-light-gray: #3a3a3c;
-  --ios-text-primary: #ffffff;
+  --ios-black: #ffffff;
+  --ios-dark-gray: #f2f2f7;
+  --ios-mid-gray: #e5e5ea;
+  --ios-light-gray: #d1d1d6;
+  --ios-text-primary: #000000;
   --ios-text-secondary: #8e8e93;
-  --ios-text-tertiary: #545456;
-  --ios-blue: #0a84ff;
-  --ios-blue-light: rgba(10, 132, 255, 0.15);
-  --ios-red: #ff453a;
-  --ios-red-light: rgba(255, 69, 58, 0.15);
-  --ios-green: #30d158;
+  --ios-text-tertiary: #c7c7cc;
+  --ios-blue: #007aff;
+  --ios-blue-light: rgba(0, 122, 255, 0.12);
+  --ios-red: #ff3b30;
+  --ios-red-light: rgba(255, 59, 48, 0.15);
+  --ios-green: #34c759;
   
   /* Glassmorphism options */
-  --glass-bg: rgba(28, 28, 30, 0.75);
+  --glass-bg: rgba(255, 255, 255, 0.85);
   --glass-blur: blur(25px) saturate(180%);
-  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-border: rgba(0, 0, 0, 0.05);
   
   --font-stack: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }
@@ -257,7 +257,7 @@ body {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #535266 0%, #3a394a 100%);
+  background: #cbd5e1;
   color: var(--ios-text-primary);
   display: flex;
   align-items: center;
@@ -268,8 +268,20 @@ body {
   flex-shrink: 0;
 }
 
+.call-avatar.silhouette {
+  background-color: #e5e9f0;
+  color: #a0aec0;
+}
+
+.call-avatar.letter {
+  background-color: #5b8cd9;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 600;
+}
+
 .call-item.missed .call-avatar {
-  background: linear-gradient(135deg, #6e3333 0%, #4a2020 100%);
+  background: inherit;
 }
 
 .call-info-wrap {
@@ -357,7 +369,7 @@ body {
    ========================================================================== */
 #screen-detail {
   z-index: 30;
-  background-color: #0c0b12;
+  background-color: var(--ios-dark-gray);
   transform: translateX(100%); /* start off-screen right */
 }
 
@@ -413,16 +425,16 @@ body {
   width: 90px;
   height: 90px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #444357 0%, #262535 100%);
-  border: 1px solid rgba(255,255,255,0.1);
+  background: #cbd5e1;
+  border: 1px solid rgba(0,0,0,0.1);
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 34px;
   font-weight: 500;
-  color: var(--ios-text-primary);
+  color: #ffffff;
   margin-bottom: 14px;
-  box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 
 .detail-country {
@@ -933,11 +945,11 @@ body {
   left: 4px;
   height: 44px;
   width: 88px; /* Dynamic depending on number of tabs, approx 1/3 minus spacing */
-  background-color: var(--ios-mid-gray);
+  background-color: var(--ios-blue-light);
   border-radius: 22px;
   z-index: 1;
   transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.25);
-  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  box-shadow: none;
 }
 
 /* Navigation items */
@@ -1011,7 +1023,7 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  background: radial-gradient(circle at center, #1c1c1e 0%, #09090b 100%);
+  background: radial-gradient(circle at center, #f2f2f7 0%, #e5e5ea 100%);
   z-index: 100;
   display: flex;
   flex-direction: column;
@@ -1047,16 +1059,16 @@ body {
   width: 90px;
   height: 90px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: #cbd5e1;
+  border: 1px solid rgba(0, 0, 0, 0.08);
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 32px;
   font-weight: 500;
-  color: var(--ios-text-primary);
+  color: #ffffff;
   margin-bottom: 20px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
 
 .active-call-name {
@@ -1099,7 +1111,7 @@ body {
   width: 64px;
   height: 64px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(0, 0, 0, 0.05);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1108,7 +1120,7 @@ body {
 }
 
 .tool-btn:active .tool-icon-circle {
-  background: rgba(255, 255, 255, 0.18);
+  background: rgba(0, 0, 0, 0.12);
   transform: scale(0.95);
 }
 
