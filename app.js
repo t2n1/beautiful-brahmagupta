@@ -124,7 +124,7 @@ document.addEventListener('DOMContentLoaded', () => {
     'Phương Bình',
     'Thực Phẩm Việt Anjō',
     'Quỳnh Nguyễn',
-    'Trần Nguyên',
+    'Trình Công Minh',
     'Nguyên Tạ',
     'Mai Tran',
     'Xinmoi Tạp Hoá Hirakata',
@@ -179,15 +179,23 @@ document.addEventListener('DOMContentLoaded', () => {
       const callDate = new Date(now);
       callDate.setDate(now.getDate() - dayOffset);
       
-      // Random number of calls on this day
-      const count = dayOffset === 0 ? 5 : 8 + Math.floor(Math.random() * 5);
+      // Random number of calls on this day: 12-18 calls today, 8-12 calls on other days
+      const count = dayOffset === 0 ? 14 + Math.floor(Math.random() * 5) : 8 + Math.floor(Math.random() * 5);
       
       for (let i = 0; i < count; i++) {
         const contact = pool[Math.floor(Math.random() * pool.length)];
         
-        // Random hour & minute
         const timestamp = new Date(callDate);
-        timestamp.setHours(9 + Math.floor(Math.random() * 8), Math.floor(Math.random() * 60), 0, 0);
+        if (dayOffset === 0) {
+          // Spread calls throughout the day up to the current hour
+          const currentHour = now.getHours();
+          const hour = Math.floor(Math.random() * (currentHour + 1));
+          const minute = Math.floor(Math.random() * 60);
+          timestamp.setHours(hour, minute, 0, 0);
+        } else {
+          // Random hour & minute during standard active hours
+          timestamp.setHours(9 + Math.floor(Math.random() * 10), Math.floor(Math.random() * 60), 0, 0);
+        }
 
         const isMissed = Math.random() > 0.7; // 30% missed calls
         const direction = Math.random() > 0.4 ? 'incoming' : 'outgoing';
