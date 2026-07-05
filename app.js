@@ -133,7 +133,7 @@ document.addEventListener('DOMContentLoaded', () => {
   ];
 
   const callTypes = ['Messenger âm thanh', 'LINE âm thanh', 'điện thoại'];
-  const locations = ['Nhật Bản', 'Hà Nội', 'TP. HCM', 'Việt Nam'];
+  const locations = ['Nhật Bản', 'Tokyo', 'Osaka', 'Yokohama', 'Nagoya', 'Kyoto'];
 
   function generateVNPhoneNumber() {
     const prefixes = ['090', '098', '035', '036', '086', '079'];
@@ -153,11 +153,11 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Force specific contacts for realism matching screenshots
     pool.push({ name: 'Nay Zin', number: '080 1234 5678', callType: 'LINE âm thanh', location: 'Nhật Bản' });
-    pool.push({ name: 'Chân Trời Mới, Vui Kome, Bé Gạo, Tsu B...', number: '090 999 8888', callType: 'Messenger âm thanh', location: 'Việt Nam' });
+    pool.push({ name: 'Chân Trời Mới, Vui Kome, Bé Gạo, Tsu B...', number: '090 999 8888', callType: 'Messenger âm thanh', location: 'Tokyo' });
     pool.push({ name: '野村さん', number: '080 9015 3089', callType: 'điện thoại', location: 'Nhật Bản' });
-    pool.push({ name: 'Anh Định', number: '035 123 4567', callType: 'điện thoại', location: 'Hà Nội' });
-    pool.push({ name: 'Nguyễn Hằng', number: '098 765 4321', callType: 'Messenger âm thanh', location: 'TP. HCM' });
-    pool.push({ name: 'Long Dinh Mart', number: '090 222 3333', callType: 'Messenger âm thanh', location: 'Việt Nam' });
+    pool.push({ name: 'Anh Định', number: '035 123 4567', callType: 'điện thoại', location: 'Osaka' });
+    pool.push({ name: 'Nguyễn Hằng', number: '098 765 4321', callType: 'Messenger âm thanh', location: 'Yokohama' });
+    pool.push({ name: 'Long Dinh Mart', number: '090 222 3333', callType: 'Messenger âm thanh', location: 'Nagoya' });
     
     // Add raw number (no name)
     pool.push({ name: null, number: '080 9015 3089', callType: 'điện thoại', location: 'Nhật Bản' });
